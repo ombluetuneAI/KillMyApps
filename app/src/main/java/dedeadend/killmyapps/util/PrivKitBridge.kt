@@ -16,7 +16,6 @@ import priv.kit.core.adb.PrivilegeAdbConnectionOptions
 import priv.kit.core.adb.PrivilegeAdbPairingCheckStatus
 import priv.kit.core.adb.PrivilegeAdbWirelessDebuggingControl
 import priv.kit.core.adb.PrivilegeAdbWirelessDebuggingControlStatus
-import priv.kit.shared.hasPrivilegeAdbCertificateUnknownMessage
 import java.io.File
 
 /**
@@ -228,7 +227,8 @@ object PrivKitBridge {
         if (raw == null) return "unknown"
         val chain = raw
         if (chain.contains("ADB key is not authorized", ignoreCase = true) ||
-            chain.hasPrivilegeAdbCertificateUnknownMessage()
+            chain.contains("CERTIFICATE_UNKNOWN", ignoreCase = true) ||
+            chain.contains("certificate unknown", ignoreCase = true)
         ) {
             return "adb_not_authorized"
         }
