@@ -30,6 +30,7 @@ import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.databinding.FragmentHomeBinding;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.util.CapsuleToast;
+import dedeadend.killmyapps.util.PrivKitStartHelper;
 import dedeadend.killmyapps.util.PrivilegeStatus;
 import dedeadend.killmyapps.util.ShizukuUtils;
 
@@ -183,8 +184,28 @@ public class HomeFragment extends Fragment {
         if (state == PrivilegeStatus.State.READY || state == PrivilegeStatus.State.ROOT_MODE) {
             return;
         }
-        // Built-in: open guide (pair / start). Shizuku*: same.
+        if (PrivilegeStatus.isBuiltinMode(mode) && state == PrivilegeStatus.State.NOT_RUNNING) {
+            startBuiltinFromHome();
+            return;
+        }
         showGuide(state);
+    }
+
+    private void startBuiltinFromHome() {
+        android.app.Activity activity = getActivity();
+        if (activity == null) return;
+        binding.privilegeActionBtn.setEnabled(false);
+        binding.privilegeActionBtn.setText(R.string.guide_starting);
+        PrivKitStartHelper.startFromActivity(activity, (success, message) -> {
+            if (binding == null) return;
+            refreshPrivilegeStatus();
+            if (success) {
+                CapsuleToast.showInfo(activity, message);
+            } else {
+                CapsuleToast.showInfo(activity, message);
+                showGuide(PrivilegeStatus.State.NOT_RUNNING);
+            }
+        });
     }
 
     private void showGuide(PrivilegeStatus.State state) {

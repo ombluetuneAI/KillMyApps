@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import androidx.annotation.NonNull;
 import android.view.View;
 import android.view.Window;
 import android.view.animation.LinearInterpolator;
@@ -27,11 +28,13 @@ import androidx.navigation.ui.NavigationUI;
 
 import dedeadend.killmyapps.databinding.ActivityMainBinding;
 import dedeadend.killmyapps.util.CapsuleToast;
+import dedeadend.killmyapps.util.PrivKitPermissions;
 
 public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
     private ObjectAnimator logoAnimator;
+    private Runnable pendingAfterLocalNetworkPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,5 +128,39 @@ public class MainActivity extends AppCompatActivity {
 
     public CardView getDonateLayout() {
         return binding.donateLayout;
+    }
+
+    /**
+     * Runs {@code action} after ACCESS_LOCAL_NETWORK is granted (required on Android 16+ for ADB mDNS).
+     */
+    public void runWithLocalNetworkPermission(@NonNull Runnable action) {
+        if (!PrivKitPermissions.shouldRequestLocalNetwork(this)) {
+            action.run();
+            return;
+        }
+        pendingAfterLocalNetworkPermission = action;
+        PrivKitPermissions.requestLocalNetwork(this);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode != PrivKitPermissions.REQUEST_LOCAL_NETWORK) {
+            return;
+        }
+        Runnable pending = pendingAfterLocalNetworkPermission;
+        pendingAfterLocalNetworkPermission = null;
+        if (pending == null) {
+            return;
+        }
+        if (PrivKitPermissions.hasLocalNetworkPermission(this)) {
+            pending.run();
+        } else {
+            CapsuleToast.showInfo(this, getString(R.string.guide_local_network_denied));
+        }
     }
 }

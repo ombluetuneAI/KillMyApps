@@ -15,6 +15,7 @@ public final class PrivKitUtils {
     }
 
     public static boolean checkReady() {
+        PrivKitBridge.initializeRuntime();
         if (PrivKitBridge.isServerAlive()) {
             return true;
         }

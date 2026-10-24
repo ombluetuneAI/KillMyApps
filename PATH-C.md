@@ -107,7 +107,7 @@ adb shell am broadcast -n dedeadend.killmyapps.oneshot/.receiver.DebugKillReceiv
 
 1. **无 Root 重启后必须再起服务**（无线调试 + Start／Manual）
 2. 部分 OEM 无线调试／配对差异由 Priv Kit 承担；本机为 MI PAD 4 PLUS + 无线 adb 已通
-3. `startAdb()` 机内自启依赖无线调试已开且（首次）已配对；本次验证用 Manual starter（同等 shell 特权，仍零 Shizuku）
+3. 机内 `Start` 依赖：无线调试已开、**本 App 的 ADB 密钥已配对**（与 PC adb 授权无关）、Android 16+ 需授予 **本地网络** 权限以便 mDNS 发现 ADB 端口；首次握手成功后 Priv Kit 可授予 `WRITE_SECURE_SETTINGS` 以便后续自动打开无线调试
 4. DebugKillReceiver 仅 debug 包；正式分发应去掉或加签名鉴权
 5. 合体分发物整体 **GPL-3.0**，须保留 Priv Kit／Shizuku API 的 Apache NOTICE
 
