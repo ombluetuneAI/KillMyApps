@@ -20,11 +20,14 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.R;
 import dedeadend.killmyapps.util.CapsuleToast;
 import dedeadend.killmyapps.util.PrivKitBridge;
+import dedeadend.killmyapps.util.PrivKitStartHelper;
 import dedeadend.killmyapps.util.PrivilegeStatus;
 import dedeadend.killmyapps.util.ShizukuUtils;
+import dedeadend.killmyapps.util.WirelessDebuggingHelper;
 
 /**
  * Privilege setup guide: Path C built-in (pair + startAdb) or Shizuku fallback.
@@ -33,6 +36,8 @@ public class ShizukuGuideDialog extends Dialog {
 
     private final PrivilegeStatus.State initialState;
     private Runnable onDismissRefresh;
+    private TextView body;
+    private Button primary;
 
     public ShizukuGuideDialog(@NonNull Context context, PrivilegeStatus.State state) {
         super(context);
@@ -54,8 +59,8 @@ public class ShizukuGuideDialog extends Dialog {
         setCancelable(true);
 
         TextView title = findViewById(R.id.guide_title);
-        TextView body = findViewById(R.id.guide_body);
-        Button primary = findViewById(R.id.guide_primary_btn);
+        body = findViewById(R.id.guide_body);
+        primary = findViewById(R.id.guide_primary_btn);
         Button secondary = findViewById(R.id.guide_secondary_btn);
         Button tertiary = findViewById(R.id.guide_tertiary_btn);
         Button pairBtn = findViewById(R.id.guide_pair_btn);
@@ -88,6 +93,7 @@ public class ShizukuGuideDialog extends Dialog {
                     pairLayout.setVisibility(View.VISIBLE);
                     pairBtn.setVisibility(View.VISIBLE);
                     tertiary.setVisibility(View.VISIBLE);
+                    refreshBuiltinStatusLine();
                     primary.setText(R.string.guide_start_btn);
                     primary.setOnClickListener(v -> startBuiltin(primary));
                     pairBtn.setOnClickListener(v -> {
@@ -95,9 +101,9 @@ public class ShizukuGuideDialog extends Dialog {
                         pairBuiltin(pairBtn, code);
                     });
                     tertiary.setOnClickListener(v -> copyStarter());
-                    secondary.setText(R.string.shizuku_guide_open_dev_options);
+                    secondary.setText(R.string.guide_open_wireless_debugging);
                     secondary.setVisibility(View.VISIBLE);
-                    secondary.setOnClickListener(v -> openDevOptions());
+                    secondary.setOnClickListener(v -> WirelessDebuggingHelper.openWirelessDebugging(getContext()));
                 } else {
                     primary.setText(R.string.shizuku_guide_open_shizuku);
                     primary.setOnClickListener(v -> openShizuku());
@@ -144,34 +150,59 @@ public class ShizukuGuideDialog extends Dialog {
         });
     }
 
-    private void startBuiltin(Button primary) {
-        primary.setEnabled(false);
-        primary.setText(R.string.guide_starting);
+    private void refreshBuiltinStatusLine() {
+        if (body == null) return;
         App.executorService.execute(() -> {
-            String err = PrivKitBridge.startAdbBlocking();
+            PrivKitBridge.WirelessStatus status =
+                    PrivKitBridge.queryWirelessStatus(getContext().getApplicationContext());
+            String line = WirelessDebuggingHelper.summarizeWirelessState(
+                    getContext(),
+                    status.getPaired()
+            );
             App.handler.post(() -> {
-                android.app.Activity act = nullSafeActivity();
-                if (err == null) {
-                    if (act != null) CapsuleToast.showInfo(act, getContext().getString(R.string.guide_start_ok));
-                    dismiss();
-                } else {
-                    primary.setEnabled(true);
-                    primary.setText(R.string.guide_start_btn);
-                    if (act != null) {
-                        CapsuleToast.showInfo(act,
-                                getContext().getString(R.string.guide_start_fail, err));
-                    }
-                }
+                if (body == null) return;
+                String base = getContext().getString(R.string.shizuku_guide_body_not_running);
+                body.setText(base + "\n\n" + line + "\n" +
+                        getContext().getString(PrivKitStartHelper.pairingHintRes()));
             });
+        });
+    }
+
+    private void startBuiltin(Button primaryBtn) {
+        android.app.Activity act = nullSafeActivity();
+        if (act == null) return;
+        primaryBtn.setEnabled(false);
+        primaryBtn.setText(R.string.guide_starting);
+        PrivKitStartHelper.startFromActivity(act, (success, message) -> {
+            primaryBtn.setEnabled(true);
+            primaryBtn.setText(R.string.guide_start_btn);
+            if (success) {
+                CapsuleToast.showInfo(act, message);
+                dismiss();
+            } else {
+                CapsuleToast.showInfo(act, message);
+                refreshBuiltinStatusLine();
+            }
         });
     }
 
     private void pairBuiltin(Button pairBtn, String code) {
         if (code == null || code.trim().length() < 6) {
             android.app.Activity act = nullSafeActivity();
-            if (act != null) CapsuleToast.showInfo(act, "Enter 6-digit pairing code");
+            if (act != null) {
+                CapsuleToast.showInfo(act, getContext().getString(R.string.guide_pair_code_short));
+            }
             return;
         }
+        android.app.Activity act = nullSafeActivity();
+        if (act instanceof MainActivity) {
+            ((MainActivity) act).runWithLocalNetworkPermission(() -> runPair(pairBtn, code));
+        } else {
+            runPair(pairBtn, code);
+        }
+    }
+
+    private void runPair(Button pairBtn, String code) {
         pairBtn.setEnabled(false);
         pairBtn.setText(R.string.guide_pairing);
         App.executorService.execute(() -> {
@@ -183,8 +214,13 @@ public class ShizukuGuideDialog extends Dialog {
                 if (act == null) return;
                 if (err == null) {
                     CapsuleToast.showInfo(act, getContext().getString(R.string.guide_pair_ok));
+                    refreshBuiltinStatusLine();
                 } else {
-                    CapsuleToast.showInfo(act, getContext().getString(R.string.guide_pair_fail, err));
+                    String msg = PrivKitStartHelper.resolveMessage(
+                            act,
+                            new PrivKitBridge.StartOutcome(false, err, true, false, false)
+                    );
+                    CapsuleToast.showInfo(act, getContext().getString(R.string.guide_pair_fail, msg));
                 }
             });
         });

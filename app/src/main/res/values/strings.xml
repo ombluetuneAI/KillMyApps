@@ -31,7 +31,7 @@
     <string name="shizuku_guide_title_not_installed">Shizuku not installed</string>
     <string name="shizuku_guide_body_not_installed">This engine needs the official Shizuku APK.\n\nPrefer one APK? Switch Killer Engine to «Built-in (ADB)» in Settings — no Shizuku required.\n\nOr download Shizuku, start it via Wireless debugging, then authorize.</string>
     <string name="shizuku_guide_title_not_running">Start privilege service</string>
-    <string name="shizuku_guide_body_not_running">Built-in mode: no official Shizuku APK needed.\n\n1. Enable Developer options → Wireless debugging.\n2. (First time) Pair device with pairing code — enter the 6-digit code below and tap Pair.\n3. Tap Start service (app connects to adbd and launches its private privilege process).\n4. After every reboot, turn Wireless debugging on and Start again.\n\nManual fallback: run the starter command from a PC already on adb (shown after dump).</string>
+    <string name="shizuku_guide_body_not_running">Built-in mode (no official Shizuku APK).\n\n1. Turn on Wireless debugging (button below opens that screen).\n2. First time only: in system settings tap «Pair device with pairing code», then enter the 6-digit code here (the app cannot read the code for you).\n3. Tap Start service — the app discovers adbd, launches its private server, and connects.\n4. After reboot: Start again (pairing is remembered; wireless debugging may need toggling once).\n\nAfter the first success, the app can auto-enable Wireless debugging when the system allows.</string>
     <string name="shizuku_guide_title_not_authorized">Authorize KillMyApps</string>
     <string name="shizuku_guide_body_not_authorized">Shizuku is running. Tap Authorize to grant this app permission to force-stop packages.</string>
     <string name="shizuku_guide_title_ready">Privilege ready</string>
@@ -56,6 +56,14 @@
     <string name="guide_pair_fail">Pair failed: %1$s</string>
     <string name="guide_copy_starter">Copy manual starter</string>
     <string name="guide_starter_copied">Starter command copied</string>
+    <string name="guide_open_wireless_debugging">Open Wireless debugging</string>
+    <string name="guide_pairing_code_honest">The pairing code is shown only in system settings — open Wireless debugging → Pair with code, then type it above.</string>
+    <string name="guide_pair_code_short">Enter the 6-digit pairing code from system settings</string>
+    <string name="guide_local_network_required">Allow local network access so the app can find the wireless ADB port (Android 16+).</string>
+    <string name="guide_local_network_denied">Local network permission denied — cannot discover wireless ADB port.</string>
+    <string name="guide_wireless_off">Turn on Wireless debugging in Developer options, then tap Start again.</string>
+    <string name="guide_discover_port_fail">Could not find wireless ADB port — keep Wireless debugging on and stay on the same Wi‑Fi.</string>
+    <string name="guide_pairing_required">Pair this app with Wireless debugging: open the system pairing screen, enter the 6-digit code, then tap Pair with code. (PC adb pairing does not authorize this app.)</string>
 
     <string name="settings_privilege_section">Privilege (Built-in)</string>
     <string name="settings_privilege_hint">Default engine is Built-in (Priv Kit). No official Shizuku APK. After reboot, reopen Wireless debugging and Start the service again.</string>

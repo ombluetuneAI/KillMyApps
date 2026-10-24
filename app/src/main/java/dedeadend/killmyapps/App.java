@@ -72,6 +72,7 @@ public class App extends Application {
         if (isFirstRun)
             settings.edit().putBoolean("isFirstRun", false).apply();
         initAutoKillServices();
+        dedeadend.killmyapps.util.PrivKitBridge.initializeRuntime();
         // Path C: dump Manual starter command for PC-adb / recovery
         executorService.execute(() -> {
             try {
