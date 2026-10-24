@@ -64,7 +64,7 @@ public class AppListHelper {
                     || (hideDefaultKeyboard && pkgName.equals(keyboardPkg))
                     || (hideDefaultDialer && pkgName.equals(dialerPkg))
                     || (hideDefaultSms && pkgName.equals(smsPkg))
-                    || (hideKillMyApps && pkgName.equals("dedeadend.killmyapps"));
+                    || (hideKillMyApps && pkgName.equals(App.context.getPackageName()));
         });
 
         return AppInfo.utils.applicationInfoList2AppInfoList(context, applications);
@@ -122,7 +122,7 @@ public class AppListHelper {
                     || (hideDefaultKeyboard && pkgName.equals(keyboardPkg))
                     || (hideDefaultDialer && pkgName.equals(dialerPkg))
                     || (hideDefaultSms && pkgName.equals(smsPkg))
-                    || (hideKillMyApps && pkgName.equals("dedeadend.killmyapps"));
+                    || (hideKillMyApps && pkgName.equals(App.context.getPackageName()));
         });
 
         return AppInfo.utils.applicationInfoList2AppInfoList(context, applications);

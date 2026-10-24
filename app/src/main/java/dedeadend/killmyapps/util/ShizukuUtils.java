@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.model.AppInfo;
 import rikka.shizuku.Shizuku;
 
@@ -66,7 +67,7 @@ public class ShizukuUtils {
 
             for (AppInfo app : appList) {
                 String pkg = app.getPkgName();
-                if (pkg.equals("dedeadend.killmyapps")) {
+                if (pkg.equals(App.context.getPackageName())) {
                     killMyApps = true;
                     continue;
                 }

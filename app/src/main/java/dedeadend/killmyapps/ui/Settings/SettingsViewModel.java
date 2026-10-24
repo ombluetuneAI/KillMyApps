@@ -46,7 +46,7 @@ public class SettingsViewModel extends ViewModel {
 
     private void loadSettings() {
         themeMode.setValue(App.settings.getInt(App.THEME_MODE, 0));
-        killerMode.setValue(App.settings.getInt(App.KILLER_MODE, 1));
+        killerMode.setValue(App.settings.getInt(App.KILLER_MODE, 4));
         killLevel.setValue(App.settings.getInt(App.KILLER_LEVEL, 1));
         listMode.setValue(App.settings.getInt(App.LIST_MODE, 1));
         selectionMode.setValue(App.settings.getInt(App.SELECTION_MODE, 0));

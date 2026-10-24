@@ -8,6 +8,8 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 
+import org.lsposed.hiddenapibypass.HiddenApiBypass;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.content.ContextCompat;
 import androidx.room.Room;
@@ -51,6 +53,14 @@ public class App extends Application {
     public static boolean isFirstRun;
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            HiddenApiBypass.addHiddenApiExemptions("L");
+        }
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         database = Room.databaseBuilder(this, Database.class, "database").build();
@@ -62,6 +72,13 @@ public class App extends Application {
         if (isFirstRun)
             settings.edit().putBoolean("isFirstRun", false).apply();
         initAutoKillServices();
+        // Path C: dump Manual starter command for PC-adb / recovery
+        executorService.execute(() -> {
+            try {
+                dedeadend.killmyapps.util.PrivKitBridge.dumpStarterCommand(context);
+            } catch (Throwable ignored) {
+            }
+        });
     }
 
     public static void setAppThemeMode() {

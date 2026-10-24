@@ -26,6 +26,9 @@ import androidx.lifecycle.ViewModelProvider;
 import dedeadend.killmyapps.MainActivity;
 import dedeadend.killmyapps.databinding.FragmentSettingsBinding;
 import dedeadend.killmyapps.util.AutoKillHelper;
+import dedeadend.killmyapps.App;
+import dedeadend.killmyapps.ui.home.ShizukuGuideDialog;
+import dedeadend.killmyapps.util.PrivilegeStatus;
 import dedeadend.killmyapps.util.CapsuleToast;
 
 public class SettingsFragment extends Fragment {
@@ -90,6 +93,8 @@ public class SettingsFragment extends Fragment {
                     binding.killerModeSettings.check(binding.shizukuMode.getId());
                 else if (integer == 3)
                     binding.killerModeSettings.check(binding.shizukuPlusMode.getId());
+                else
+                    binding.killerModeSettings.check(binding.builtinMode.getId());
             }
         });
         settingsViewModel.getKillLevel().observe(getViewLifecycleOwner(), new Observer<Integer>() {
@@ -211,6 +216,8 @@ public class SettingsFragment extends Fragment {
                     settingsViewModel.setKillerMode(2);
                 else if (checkedId == binding.shizukuPlusMode.getId())
                     settingsViewModel.setKillerMode(3);
+                else if (checkedId == binding.builtinMode.getId())
+                    settingsViewModel.setKillerMode(4);
             }
         });
 
@@ -409,6 +416,16 @@ public class SettingsFragment extends Fragment {
                 } catch (ActivityNotFoundException e) {
                     CapsuleToast.showInfo(getActivity(), "No browser app found to open link");
                 }
+            }
+        });
+
+        binding.openShizukuGuideBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int mode = App.settings.getInt(App.KILLER_MODE, 4);
+                PrivilegeStatus.State state = PrivilegeStatus.resolve(requireContext(), mode);
+                ShizukuGuideDialog dialog = new ShizukuGuideDialog(requireContext(), state);
+                dialog.show();
             }
         });
     }

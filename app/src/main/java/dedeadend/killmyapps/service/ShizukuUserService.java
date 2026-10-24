@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
+import dedeadend.killmyapps.BuildConfig;
 import dedeadend.killmyapps.IKillAppService;
 
 public class ShizukuUserService extends IKillAppService.Stub {
@@ -45,7 +46,7 @@ public class ShizukuUserService extends IKillAppService.Stub {
             boolean killMyApps = false;
 
             for (String pkg : packages) {
-                if ("dedeadend.killmyapps".equals(pkg)) {
+                if (BuildConfig.APPLICATION_ID.equals(pkg)) {
                     killMyApps = true;
                     continue;
                 }

@@ -3,4 +3,61 @@
     <string name="title_home">Running Apps</string>
     <string name="title_selection">Selection</string>
     <string name="title_settings">Settings</string>
+
+    <!-- Privilege guidance (Path C built-in + optional Shizuku) -->
+    <string name="privilege_status_checking">Checking privilege…</string>
+    <string name="privilege_status_subtitle_default">Engine: Built-in</string>
+    <string name="privilege_action_guide">Guide</string>
+    <string name="privilege_action_authorize">Authorize</string>
+    <string name="privilege_action_install">Install</string>
+    <string name="privilege_action_start">Start</string>
+    <string name="privilege_action_ready">Ready</string>
+    <string name="privilege_action_pair">Pair</string>
+
+    <string name="privilege_title_not_installed">Shizuku: not installed</string>
+    <string name="privilege_title_not_running">Privilege: not running</string>
+    <string name="privilege_title_not_authorized">Shizuku: not authorized</string>
+    <string name="privilege_title_ready">Privilege: ready</string>
+    <string name="privilege_title_root_ok">Root: available</string>
+    <string name="privilege_title_root_missing">Root: not available</string>
+
+    <string name="privilege_sub_not_installed">Optional: install official Shizuku, or switch to Built-in</string>
+    <string name="privilege_sub_not_running">Start built-in service via Wireless debugging (each reboot)</string>
+    <string name="privilege_sub_not_authorized">Grant KillMyApps permission in Shizuku</string>
+    <string name="privilege_sub_ready">Force-stop is available</string>
+    <string name="privilege_sub_root_ok">Using Root engine</string>
+    <string name="privilege_sub_root_missing">Switch to Built-in in Settings, or grant Root</string>
+
+    <string name="shizuku_guide_title_not_installed">Shizuku not installed</string>
+    <string name="shizuku_guide_body_not_installed">This engine needs the official Shizuku APK.\n\nPrefer one APK? Switch Killer Engine to «Built-in (ADB)» in Settings — no Shizuku required.\n\nOr download Shizuku, start it via Wireless debugging, then authorize.</string>
+    <string name="shizuku_guide_title_not_running">Start privilege service</string>
+    <string name="shizuku_guide_body_not_running">Built-in mode: no official Shizuku APK needed.\n\n1. Enable Developer options → Wireless debugging.\n2. (First time) Pair device with pairing code — enter the 6-digit code below and tap Pair.\n3. Tap Start service (app connects to adbd and launches its private privilege process).\n4. After every reboot, turn Wireless debugging on and Start again.\n\nManual fallback: run the starter command from a PC already on adb (shown after dump).</string>
+    <string name="shizuku_guide_title_not_authorized">Authorize KillMyApps</string>
+    <string name="shizuku_guide_body_not_authorized">Shizuku is running. Tap Authorize to grant this app permission to force-stop packages.</string>
+    <string name="shizuku_guide_title_ready">Privilege ready</string>
+    <string name="shizuku_guide_body_ready">Privilege service is running. You can kill apps from the list.</string>
+    <string name="shizuku_guide_title_root">Root engine</string>
+    <string name="shizuku_guide_body_root">Current engine is Root. Switch to Built-in (ADB) in Settings for the no-Shizuku path.</string>
+
+    <string name="shizuku_guide_download">Download Shizuku</string>
+    <string name="shizuku_guide_open_shizuku">Open Shizuku</string>
+    <string name="shizuku_guide_open_dev_options">Developer options</string>
+    <string name="shizuku_guide_request_permission">Authorize</string>
+    <string name="shizuku_guide_permission_toast">Permission request sent — check Shizuku</string>
+    <string name="shizuku_guide_close">Close</string>
+    <string name="guide_pair_hint">Wireless debugging pairing code</string>
+    <string name="guide_pair_btn">Pair with code</string>
+    <string name="guide_start_btn">Start service</string>
+    <string name="guide_starting">Starting…</string>
+    <string name="guide_pairing">Pairing…</string>
+    <string name="guide_start_ok">Service started</string>
+    <string name="guide_start_fail">Start failed: %1$s</string>
+    <string name="guide_pair_ok">Paired — tap Start service</string>
+    <string name="guide_pair_fail">Pair failed: %1$s</string>
+    <string name="guide_copy_starter">Copy manual starter</string>
+    <string name="guide_starter_copied">Starter command copied</string>
+
+    <string name="settings_privilege_section">Privilege (Built-in)</string>
+    <string name="settings_privilege_hint">Default engine is Built-in (Priv Kit). No official Shizuku APK. After reboot, reopen Wireless debugging and Start the service again.</string>
+    <string name="settings_open_shizuku_guide">Open privilege setup guide</string>
 </resources>

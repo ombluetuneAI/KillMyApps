@@ -1,0 +1,27 @@
+KillMyApps (this fork)
+Copyright (c) original authors and contributors
+Licensed under the GNU General Public License v3.0 (see LICENSE).
+
+This distribution uses the following third-party components:
+
+Priv Kit (priv-core)
+  https://github.com/priv-kit/priv-kit
+  Copyright (c) lisonge and contributors
+  Licensed under the Apache License, Version 2.0
+  https://www.apache.org/licenses/LICENSE-2.0
+  Used for Path C self-contained privileged server (ADB / Root startup).
+
+Shizuku API / Shizuku Provider
+  https://github.com/RikkaApps/Shizuku-API
+  Copyright (c) RikkaW and contributors
+  Licensed under the Apache License, Version 2.0
+  https://www.apache.org/licenses/LICENSE-2.0
+  Optional fallback engine when official Shizuku is installed.
+
+HiddenApiBypass
+  https://github.com/LSPosed/AndroidHiddenApiBypass
+  Licensed under the Apache License, Version 2.0
+
+Path B guidance UX and Path C built-in privilege integration
+  Added in this local fork. Distributed under GPL-3.0 as part of the combined work.
+  Combined work is GPL-3.0; Apache attribution above must be preserved.

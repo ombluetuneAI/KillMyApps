@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
+import dedeadend.killmyapps.BuildConfig;
 import dedeadend.killmyapps.IKillAppService;
 import dedeadend.killmyapps.model.AppInfo;
 import dedeadend.killmyapps.service.ShizukuUserService;
@@ -38,7 +39,7 @@ public class ShizukuPlusUtils {
     private static CountDownLatch bindLatch = null;
 
     private static final Shizuku.UserServiceArgs userServiceArgs =
-            new Shizuku.UserServiceArgs(new ComponentName("dedeadend.killmyapps", ShizukuUserService.class.getName()))
+            new Shizuku.UserServiceArgs(new ComponentName(BuildConfig.APPLICATION_ID, ShizukuUserService.class.getName()))
                     .daemon(false)
                     .processNameSuffix("shizuku")
                     .debuggable(false)

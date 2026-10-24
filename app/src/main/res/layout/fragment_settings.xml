@@ -100,6 +100,14 @@
                     android:layout_height="wrap_content">
 
                     <RadioButton
+                        android:id="@+id/builtin_mode"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Built-in (ADB)"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
                         android:id="@+id/root_mode"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -129,9 +137,48 @@
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="8dp"
                     android:justificationMode="inter_character"
-                    android:text="Note: Shizuku+ is still standard Shizuku under the hood. It uses an AIDL UserService for higher stability and better compatibility with modified Shizuku builds."
+                    android:text="Default is Built-in (ADB): starts a private privilege server via Wireless debugging — no official Shizuku APK. Shizuku / Shizuku+ remain optional fallbacks. After reboot, start the built-in service again."
                     android:textSize="13sp" />
 
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginVertical="8dp"
+            android:layoutDirection="ltr"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="8dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/settings_privilege_section"
+                    android:textColor="@color/purple_400"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/settings_privilege_hint"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/open_shizuku_guide_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_open_shizuku_guide" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

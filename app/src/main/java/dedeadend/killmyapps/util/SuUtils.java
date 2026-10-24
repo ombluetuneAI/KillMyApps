@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import dedeadend.killmyapps.App;
 import dedeadend.killmyapps.model.AppInfo;
 
 public class SuUtils {
@@ -63,7 +64,7 @@ public class SuUtils {
 
             for (AppInfo app : appList) {
                 String pkgName = app.getPkgName();
-                if (pkgName.equals("dedeadend.killmyapps")) {
+                if (pkgName.equals(App.context.getPackageName())) {
                     killMyApps = true;
                     continue;
                 }

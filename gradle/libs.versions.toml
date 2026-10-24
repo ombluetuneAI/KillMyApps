@@ -1,5 +1,6 @@
 [versions]
 agp = "9.2.1"
+kotlin = "2.4.20"
 shizukuApi = "13.1.0"
 appcompat = "1.8.0"
 material = "1.14.0"
@@ -10,6 +11,9 @@ navigationFragment = "2.10.0"
 navigationUi = "2.10.0"
 roomRuntime = "2.8.4"
 swiperefreshlayout = "1.2.0"
+privKit = "0.17.8"
+hiddenApiBypass = "6.1"
+coroutines = "1.10.2"
 
 [libraries]
 api = { module = "dev.rikka.shizuku:api", version.ref = "shizukuApi" }
@@ -24,7 +28,10 @@ provider = { module = "dev.rikka.shizuku:provider", version.ref = "shizukuApi" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomRuntime" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+priv-core = { module = "io.github.priv-kit:priv-core", version.ref = "privKit" }
+hiddenapibypass = { module = "org.lsposed.hiddenapibypass:hiddenapibypass", version.ref = "hiddenApiBypass" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
